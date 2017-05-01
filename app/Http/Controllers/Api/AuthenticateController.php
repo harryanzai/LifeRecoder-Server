@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Toplan\Sms\Facades\SmsManager;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Providers\Auth\AuthInterface;
 use Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -15,6 +13,15 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class AuthenticateController extends ApiController
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('jwt.auth')->except([
+            'sendCheckCode',
+            'registerUser',
+            'loginUser'
+        ]);
+    }
 
     /**
      * @api {post} /v1/seedCode.json 获取手机验证码
@@ -61,6 +68,27 @@ class AuthenticateController extends ApiController
         return $this->respondInteralError('验证码发送失败,请重试');
     }
 
+    /**
+     * @api {post} /auth/register.json app注册
+     * @apiGroup Auth
+     * @apiPermission none
+     * @apiParam {String} mobile 用户的手机号
+     * @apiParam {String} verifyCode 请求的验证码
+     * @apiParam {String} password 用户的密码
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *           "status": "success",
+     *           "code": 200,
+     *           "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xpZmVyZWNvZGVyLmRldlwvYXBpXC92MVwvbG9naW4uanNvbiIsImlhdCI6MTQ5MzY0NTgyMCwiZXhwIjoxNDkzNjQ5NDIwLCJuYmYiOjE0OTM2NDU4MjAsImp0aSI6Ijc5VGxIYzNubVVGMkJmczMifQ.usSRe47EgnIqgZ2UXAFb2RdF-u1N6Kn9ATRpWHDH0sU",
+     *       }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *           "status": "error",
+     *           "code": 400,
+     *           "message": "用户名已经存在"
+     *      }
+     */
     public function registerUser(Request $request)
     {
         // 添加用户请求的标识
@@ -69,7 +97,7 @@ class AuthenticateController extends ApiController
         ]);
         //验证数据
         $validator = Validator::make($request->all(), [
-            'mobile'     => 'required|confirm_mobile_not_change|confirm_rule:mobile_required',
+            'mobile'     => 'required|confirm_mobile_not_change|confirm_rule:mobile_required|unique:users',
             'verifyCode' => 'required|verify_code',
             'password' => 'required|min:6'
         ],[
@@ -97,6 +125,26 @@ class AuthenticateController extends ApiController
     }
 
 
+    /**
+     * @api {post} /auth/login.json app登录
+     * @apiGroup Auth
+     * @apiPermission none
+     * @apiParam {String} mobile 用户的手机号
+     * @apiParam {String} password 用户的密码
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *           "status": "success",
+     *           "code": 200,
+     *           "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xpZmVyZWNvZGVyLmRldlwvYXBpXC92MVwvbG9naW4uanNvbiIsImlhdCI6MTQ5MzY0NTgyMCwiZXhwIjoxNDkzNjQ5NDIwLCJuYmYiOjE0OTM2NDU4MjAsImp0aSI6Ijc5VGxIYzNubVVGMkJmczMifQ.usSRe47EgnIqgZ2UXAFb2RdF-u1N6Kn9ATRpWHDH0sU",
+     *       }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *           "status": "error",
+     *           "code": 400,
+     *           "message": "用户名或密码错误"
+     *      }
+     */
     public function loginUser(Request $request)
     {
 
@@ -126,11 +174,37 @@ class AuthenticateController extends ApiController
     }
 
 
-
-    public function state()
+    /**
+     * @api {post} /auth/logout.json app退出登录
+     * @apiGroup Auth
+     * @apiPermission none
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "Authorization" : "Bearer {token}"
+     *    }
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *           "status": "success",
+     *           "code": 200,
+     *           "message": "退出登录成功",
+     *       }
+     * @apiErrorExample {json} Error-Response:
+     *     {
+     *           "error": "token_invalid"
+     *      }
+     */
+    public function logout(Request $request)
     {
-        $state = SmsManager::retrieveState();
-        return $state;
+        try {
+            JWTAuth::parseToken()->invalidate();
+        } catch (TokenBlacklistedException $e) {
+            return $this->failure(trans('jwt.the_token_has_been_blacklisted'), 500);
+        } catch (JWTException $e) {
+            // 忽略该异常（Authorization为空时会发生）
+        }
+        return $this->respondWithMessage('退出登录成功');
     }
+    
 
 }

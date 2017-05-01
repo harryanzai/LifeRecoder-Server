@@ -24,6 +24,8 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
     Route::post('register.json','AuthenticateController@registerUser');
     Route::post('login.json','AuthenticateController@loginUser');
 
+    Route::post('logout.json','AuthenticateController@logout');
+
     Route::get('state','AuthenticateController@state');
 
     Route::get('users/{user}','UsersController@show');
