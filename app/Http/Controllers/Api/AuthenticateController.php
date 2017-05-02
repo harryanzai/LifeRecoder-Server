@@ -111,12 +111,7 @@ class AuthenticateController extends ApiController
             return $this->respondWithError($errors);
         }
 
-        // 验证是否已存在用户
-        if (User::where('mobile',$request->mobile)->first()){
-            return $this->respondWithError('手机号已注册');
-        }
-
-        $user = User::create([
+        User::create([
             'mobile' => $request->mobile,
             'password' => bcrypt($request->password)
         ]);
@@ -205,6 +200,8 @@ class AuthenticateController extends ApiController
         }
         return $this->respondWithMessage('退出登录成功');
     }
-    
+
+
+
 
 }
