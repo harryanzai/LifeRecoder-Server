@@ -19,9 +19,8 @@ class CreateGalleriesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('title')->nullable()->comment('图片集的标题');
             $table->string('content')->nullable()->comment('图片集的描述');
-
             // 心情
-
+            $table->integer('mood_id')->nullable()->comment('所对应的心情');
             // 标签
             $table->timestamps();
         });
