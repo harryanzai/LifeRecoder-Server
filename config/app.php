@@ -171,6 +171,7 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Toplan\PhpSms\PhpSmsServiceProvider::class,
         Toplan\Sms\SmsManagerServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -236,6 +237,7 @@ return [
 
         'PhpSms' => Toplan\PhpSms\Facades\Sms::class,
         'SmsManager' => Toplan\Sms\Facades\SmsManager::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

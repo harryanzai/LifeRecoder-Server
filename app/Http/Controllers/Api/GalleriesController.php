@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Auth;
+use Validator;
 use App\Models\Gallery;
 use App\Transformers\GalleryTransformer;
 use Illuminate\Http\Request;
@@ -9,6 +11,12 @@ use Illuminate\Support\Facades\Input;
 
 class GalleriesController extends ApiController
 {
+
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * @api {get} /v1/galleries 获取所有的图片集
      * @apiGroup Gallery
@@ -97,7 +105,7 @@ class GalleriesController extends ApiController
      * @apiErrorExample {json} Error-Response:
      *   {
      *    "status": "error",
-     *    "code": 200,
+     *    "code": 404,
      *    "message": "没有找到该记录"
      *   }
      */
@@ -105,10 +113,62 @@ class GalleriesController extends ApiController
     {
         $gallery = Gallery::find($id);
         if (is_null($gallery)){
-            return $this->respondWithError('没有找到该记录');
+            return $this->setStatusCode(404)->respondWithError('没有找到该记录');
         }
 
         return $this->respondWithItem($gallery,new  GalleryTransformer);
 
     }
+
+
+    /**
+     *
+     * 建立时光图片集
+     */
+    public function store(Request $request)
+    {
+        //验证数据
+
+        $validator = Validator::make($request->all(), [
+            'title'     => 'required|min:3',
+        ],[
+            'title.required' => '标题不能为空',
+            'title.min' => '标题不能少于3个字符'
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first();
+            return $this->respondWithError($errors);
+        }
+
+        $user = Auth::user();
+        $user->galleries()->create([
+            'title' => $request->title,
+            'content' => $request->get('content'),
+            'mood_id' => $request->get('mood_id')
+        ]);
+
+        return $this->respondWithSuccess('添加成功');
+
+    }
+
+
+    /**
+     *  更新图片集
+     */
+    public function update()
+    {
+
+    }
+
+
+    /**
+     *
+     * 删除图片集
+     */
+    public function destroy()
+    {
+
+    }
+
+
 }

@@ -22,6 +22,12 @@ class CreateGalleriesTable extends Migration
             // 心情
             $table->integer('mood_id')->nullable()->comment('所对应的心情');
             // 标签
+
+            // 私密的只能自己查看
+            $table->boolean('secret')->default(false);
+
+            // 默认为草稿状态
+            $table->boolean('publish')->default(false);
             $table->timestamps();
         });
     }
