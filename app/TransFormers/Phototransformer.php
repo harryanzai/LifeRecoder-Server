@@ -10,6 +10,7 @@ namespace App\Transformers;
 
 
 use App\Models\Photo;
+use function GuzzleHttp\Psr7\uri_for;
 use League\Fractal\TransformerAbstract;
 
 class Phototransformer extends TransformerAbstract
@@ -19,8 +20,8 @@ class Phototransformer extends TransformerAbstract
         return [
             'id' => $photo->id,
             'name' => $photo->name,
-            'path' => $photo->path,
-            'thumbnail_path' => $photo->thumbnail_path,
+            'path' => url($photo->path),
+            'thumbnail_path' => url($photo->thumbnail_path),
             'description' => $photo->description
 
         ];

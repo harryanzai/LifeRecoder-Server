@@ -19,7 +19,12 @@ class AuthenticateController extends ApiController
         $this->middleware('jwt.auth')->except([
             'sendCheckCode',
             'registerUser',
-            'loginUser'
+            'loginUser',
+            'token'
+        ]);
+
+        $this->middleware('jwt.refresh')->only([
+            'token'
         ]);
     }
 
@@ -202,6 +207,18 @@ class AuthenticateController extends ApiController
     }
 
 
+    /**
+     *
+     * 刷新token
+     */
+    public function token()
+    {
+        $currentToken = JWTAuth::getToken();
 
+
+        return $currentToken;
+
+
+    }
 
 }

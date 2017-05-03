@@ -14,7 +14,12 @@ class GalleriesController extends ApiController
 
     public function __construct()
     {
-        $this->middleware('jwt.auth');
+
+        parent::__construct();
+        $this->middleware('jwt.auth')->except([
+            'index',
+            'show'
+        ]);
     }
 
     /**

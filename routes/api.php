@@ -26,6 +26,8 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
     Route::post('register','AuthenticateController@registerUser');
     Route::post('login','AuthenticateController@loginUser');
 
+    Route::get('refresh/token','AuthenticateController@token');
+
     Route::post('logout','AuthenticateController@logout');
 
     Route::get('state','AuthenticateController@state');
@@ -34,5 +36,7 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
 
     Route::resource('galleries','GalleriesController');
 
+
+    Route::post('galleries/{gallery}/photos','PhotosController@store');
 
 });
