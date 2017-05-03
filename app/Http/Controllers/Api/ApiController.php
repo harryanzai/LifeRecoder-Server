@@ -31,7 +31,7 @@ class ApiController extends Controller
     public function __construct()
     {
         $this->fractal = new Manager();
-        $this->fractal->setSerializer(new ArraySerializer());
+        $this->fractal->setSerializer(new \App\Helpers\Api\ApiSerializer());
 
     }
 
@@ -104,7 +104,7 @@ class ApiController extends Controller
     public function respondWithSuccess($data, $status = "success")
     {
 
-        return $this->respondWithStatus($status,$data);
+        return $this->respondWithStatus($status,compact('data'));
     }
 
     /**

@@ -17,18 +17,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
 
-    Route::post('seedCode.json','AuthenticateController@sendCheckCode');
 
-    Route::post('register.json','AuthenticateController@registerUser');
-    Route::post('login.json','AuthenticateController@loginUser');
+    Route::post('seedCode','AuthenticateController@sendCheckCode');
 
-    Route::post('logout.json','AuthenticateController@logout');
+    Route::post('register','AuthenticateController@registerUser');
+    Route::post('login','AuthenticateController@loginUser');
+
+    Route::post('logout','AuthenticateController@logout');
 
     Route::get('state','AuthenticateController@state');
 
     Route::get('users/{user}','UsersController@show');
+
+    Route::resource('galleries','GalleriesController');
 
 
 });

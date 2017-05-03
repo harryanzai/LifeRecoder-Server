@@ -22,4 +22,14 @@ class Gallery extends Model
         return $this->morphToMany(Tag::class,'taggable');
     }
 
+    public function mood()
+    {
+        return $this->hasOne(Mood::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

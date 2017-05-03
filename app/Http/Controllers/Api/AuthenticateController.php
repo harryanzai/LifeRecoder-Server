@@ -24,7 +24,7 @@ class AuthenticateController extends ApiController
     }
 
     /**
-     * @api {post} /v1/seedCode.json 获取手机验证码
+     * @api {post} /v1/seedCode 获取手机验证码
      * @apiDescription 获取手机的验证码，以便用于注册，验证等操作
      * @apiGroup Auth
      * @apiParam {String} mobile 用户用于获取验证码的手机号
@@ -69,7 +69,7 @@ class AuthenticateController extends ApiController
     }
 
     /**
-     * @api {post} /auth/register.json app注册
+     * @api {post} /v1/register app注册
      * @apiGroup Auth
      * @apiPermission none
      * @apiParam {String} mobile 用户的手机号
@@ -121,7 +121,7 @@ class AuthenticateController extends ApiController
 
 
     /**
-     * @api {post} /auth/login.json app登录
+     * @api {post} /v1/login app登录
      * @apiGroup Auth
      * @apiPermission none
      * @apiParam {String} mobile 用户的手机号
@@ -170,7 +170,7 @@ class AuthenticateController extends ApiController
 
 
     /**
-     * @api {post} /auth/logout.json app退出登录
+     * @api {post} /v1/logout app退出登录
      * @apiGroup Auth
      * @apiPermission none
      * @apiHeaderExample {json} Header-Example:

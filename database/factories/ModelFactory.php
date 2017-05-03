@@ -31,5 +31,45 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) use($
 });
 
 
+$factory->define(App\Models\Tag::class, function (Faker\Generator $faker) use($localFaker) {
+
+    return [
+        'name' => $localFaker->name,
+        'bio' => $localFaker->sentence,
+    ];
+});
+
+$factory->define(App\Models\Gallery::class, function (Faker\Generator $faker) use($localFaker) {
+
+
+    $user_id =  \App\Models\User::pluck('id')->random();
+
+
+    return [
+        'user_id' => $user_id,
+        'title' => $localFaker->sentence,
+        'content' => $localFaker->sentence,
+    ];
+});
+
+
+$factory->define(App\Models\Photo::class, function (Faker\Generator $faker) use($localFaker) {
+
+    $gallery_id =  \App\Models\Gallery::pluck('id')->random();
+    return [
+        'gallery_id' => $gallery_id,
+        'name' => $localFaker->name,
+        'path' => $localFaker->imageUrl(),
+        'thumbnail_path' =>$localFaker->imageUrl(400,400),
+        'description' => $localFaker->sentence
+    ];
+});
+
+
+
+
+
+
+
 
 

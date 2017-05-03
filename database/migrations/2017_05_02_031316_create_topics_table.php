@@ -18,6 +18,11 @@ class CreateTopicsTable extends Migration
             $table->string('name')->comment('话题的名称');
             $table->string('bio')->nullable()->comment('话题的简介');
 
+
+            // 多态一对多关联
+            $table->integer('topicable')->nullable()->comment('关联的id');
+            $table->string('tipicable_type')->nullable()->comment('关联的类型');
+
             $table->timestamps();
         });
     }

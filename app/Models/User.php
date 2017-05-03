@@ -18,6 +18,12 @@ class User extends Authenticatable
         'nickname', 'email', 'password','mobile'
     ];
 
+    public function galleries()
+    {
+
+        return $this->hasMany(Gallery::class);
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
