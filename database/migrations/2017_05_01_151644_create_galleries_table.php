@@ -28,6 +28,10 @@ class CreateGalleriesTable extends Migration
 
             // 默认为草稿状态
             $table->boolean('publish')->default(false);
+
+            // 所属的话题
+            $table->integer('topic_id')->nullable()->comment('所属的话题');
+
             $table->timestamps();
         });
     }

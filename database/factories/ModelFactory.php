@@ -65,6 +65,13 @@ $factory->define(App\Models\Photo::class, function (Faker\Generator $faker) use(
     ];
 });
 
+$factory->define(App\Models\Topic::class, function (Faker\Generator $faker) use($localFaker) {
+    return [
+        'name' => $localFaker->name,
+        'bio' => $localFaker->sentence,
+    ];
+});
+
 
 
 

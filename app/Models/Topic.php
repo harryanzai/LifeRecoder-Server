@@ -9,4 +9,10 @@ class Topic extends Model
     protected $fillable = ['title','bio'];
 
 
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+
 }

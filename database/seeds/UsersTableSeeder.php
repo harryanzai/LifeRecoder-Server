@@ -12,5 +12,11 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         factory(\App\Models\User::class,60)->create();
+
+        $user = \App\Models\User::find(1);
+        $user->mobile = '13115181221';
+        $user->password = bcrypt('123456');
+        $user->save();
+
     }
 }

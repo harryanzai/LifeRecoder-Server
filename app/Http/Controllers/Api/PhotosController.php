@@ -50,10 +50,8 @@ class PhotosController extends ApiController
         $photo->description = $request->get('description');
 
         $gallery->photos()->save($photo);
-        
 
         return $gallery->load('photos');
-
 
     }
 
@@ -96,7 +94,7 @@ class PhotosController extends ApiController
         $photo->save();
 
         return $this->respondWithMessage('图片信息更新成功');
-        
+
     }
 
 

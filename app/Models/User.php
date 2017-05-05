@@ -24,6 +24,17 @@ class User extends Authenticatable
         return $this->hasMany(Gallery::class);
     }
 
+
+    /**
+     * 获取当前用户的所有照片
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function photos()
+    {
+        return $this->hasManyThrough(Photo::class,Gallery::class);
+
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
