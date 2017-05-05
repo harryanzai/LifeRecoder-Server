@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\Image\PhotosManager;
+use App\Models\Photo;
+use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
@@ -45,12 +47,56 @@ class PhotosController extends ApiController
 
         $photo = (new PhotosManager($file))->store();
 
+        $photo->description = $request->get('description');
+
         $gallery->photos()->save($photo);
         
 
         return $gallery->load('photos');
 
 
+    }
+
+
+
+    // 上传文件为空的问题
+    //https://laracasts.com/discuss/channels/general-discussion/i-can-not-get-data-via-requests-put-patch
+    /**
+     * 更新图片和描述信息
+     */
+    public function update(Request $request,Photo $photo)
+    {
+        //验证数据
+        $validator = Validator::make($request->all(), [
+            'photo'     => 'file|image'
+        ],[
+            'photo.file' => '上传文件失败',
+            'photo.image' => '上传文件必须为图片格式'
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first();
+            return $this->setStatusCode(400)->respondWithError($errors);
+        }
+
+        $this->authorize('update',$photo);
+
+        if ($request->hasFile('photo')){
+            $file = $request->file('photo');
+
+            $new_photo = (new PhotosManager($file))->store();
+
+            $photo->update($new_photo->toArray());
+        }
+
+        $data = array_filter([
+            'description' => $request->get('description')
+        ]);
+
+        $photo->update($data);
+        $photo->save();
+
+        return $this->respondWithMessage('图片信息更新成功');
+        
     }
 
 

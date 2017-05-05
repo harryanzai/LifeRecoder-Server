@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +11,7 @@ class Photo extends Model
 
     public function gallery()
     {
-        return $this->belongsTo(Photo::class);
+        return $this->belongsTo(Gallery::class);
     }
 
 

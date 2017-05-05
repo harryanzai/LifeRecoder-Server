@@ -157,7 +157,7 @@ class AuthenticateController extends ApiController
         ]);
         if ($validator->fails()) {
             $errors = $validator->errors()->first();
-            return $this->respondWithError($errors);
+            return $this->setStatusCode(400)->respondWithError($errors);
         }
 
         $credentials = $request->only('mobile', 'password');

@@ -18,7 +18,7 @@ class GalleryTransformer extends TransformerAbstract
             'id' => $gallery->id,
             'title' => $gallery->title,
             'content' => $gallery->content,
-
+            'create_at' =>$gallery->created_at->toDateTimeString()
         ];
     }
 

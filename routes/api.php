@@ -39,4 +39,6 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
 
     Route::post('galleries/{gallery}/photos','PhotosController@store');
 
+    Route::put('photos/{photo}','PhotosController@update');
+
 });
