@@ -33,14 +33,14 @@ class PhotosController extends ApiController
             'photo.image' => '上传文件必须为图片格式'
         ]);
         if ($validator->fails()) {
-            $errors = $validator->errors()->first();
-            return $this->setStatusCode(400)->respondWithError($errors);
+
+            return $this->respondWithFailedValidation($validator);
         }
 
         $gallery = Gallery::find($gallery);
 
         if (is_null($gallery)){
-            return $this->setStatusCode(404)->respondWithError('该图集找不到');
+            return $this->responseNotFond('没有找到该图集');
         }
 
         $file = $request->file('photo');
@@ -99,15 +99,15 @@ class PhotosController extends ApiController
 
     public function destroy(Request $request,$photo)
     {
-
         $photo = Photo::find($photo);
         if (is_null($photo)){
-            return $this->setStatusCode(404)->respondInteralError('没有该图片');
+            return $this->responseNotFond('没有找到该图片');
         }
 
-        $photo->delete();
+        $this->authorize('destroy',$photo);
 
-        return $this->respondWithMessage('删除成功');
+        $photo->delete();
+        return $this->respondWithMessage('图片删除成功');
 
     }
 

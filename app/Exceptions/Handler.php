@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -44,6 +44,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        //http://stackoverflow.com/questions/38580890/how-to-return-403-response-in-json-format-in-laravel-5-2
+
+        if ($exception instanceof AuthorizationException){
+
+            if ($request->expectsJson()){
+                return response()->json([
+                    'status' => 'error',
+                    'code' => 403,
+                    'message' => '没有该操作权限'
+                ],403);
+            }
+
+        }
+
         return parent::render($request, $exception);
     }
 

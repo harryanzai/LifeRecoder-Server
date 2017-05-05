@@ -160,8 +160,18 @@ class GalleriesController extends ApiController
     /**
      *  更新图片集
      */
-    public function update()
+    public function update(Request $request,$gallery)
     {
+        $gallery = Gallery::find($gallery);
+
+        if (is_null($gallery)){
+            return $this->responseNotFond('没有找到该图集');
+        }
+
+
+        return 'true';
+
+        $this->authorize('update',$photo);
 
     }
 

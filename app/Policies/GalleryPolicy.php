@@ -2,13 +2,11 @@
 
 namespace App\Policies;
 
-
 use App\Models\Gallery;
-use App\Models\Photo;
-use App\Models\User;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PhotoPolicy
+class GalleryPolicy
 {
     use HandlesAuthorization;
 
@@ -22,15 +20,9 @@ class PhotoPolicy
         //
     }
 
-
-    public function update(User $user,Photo $photo)
+    public function update(User $user,Gallery $gallery)
     {
-        return $user->id === $photo->gallery->user_id;
-    }
-
-    public function destroy(User $user,Photo $photo)
-    {
-        return $user->id === $photo->gallery->user_id;
+        return $user->id === $gallery->user_id;
     }
 
 

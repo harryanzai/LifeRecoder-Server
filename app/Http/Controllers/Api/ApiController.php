@@ -198,5 +198,16 @@ class ApiController extends Controller
 
     }
 
+    /**
+     * 响应所有的validation验证错误
+     * @param  \Illuminate\Validation\Validator $validator the validator that failed to pass
+     * @return \Illuminate\Http\Response the appropriate response containing the error message
+     */
+    protected function respondWithFailedValidation(\Illuminate\Validation\Validator $validator)
+    {
+        // 只取出一条错误信息
+        return $this->setStatusCode(400)->respondWithError($validator->messages()->first(), 'error');
+    }
+
 
 }
