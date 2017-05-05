@@ -97,5 +97,19 @@ class PhotosController extends ApiController
 
     }
 
+    public function destroy(Request $request,$photo)
+    {
+
+        $photo = Photo::find($photo);
+        if (is_null($photo)){
+            return $this->setStatusCode(404)->respondInteralError('没有该图片');
+        }
+
+        $photo->delete();
+
+        return $this->respondWithMessage('删除成功');
+
+    }
+
 
 }

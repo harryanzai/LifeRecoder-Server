@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class Photo extends Model
 {
@@ -30,4 +31,18 @@ class Photo extends Model
         $this->thumbnail_path = $this->baseDir().'/tn-'.$name;
 
     }
+
+
+    public function delete()
+    {
+        File::delete([
+            $this->path,
+            $this->thumbnail_path
+        ]);
+
+        return parent::delete();
+
+    }
+
+
 }

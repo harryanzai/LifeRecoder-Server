@@ -41,4 +41,6 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
 
     Route::put('photos/{photo}','PhotosController@update');
 
+    Route::delete('photos/{photo}','PhotosController@destroy');
+
 });
