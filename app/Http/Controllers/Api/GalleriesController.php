@@ -16,7 +16,7 @@ class GalleriesController extends ApiController
     {
 
         parent::__construct();
-        $this->middleware('jwt.auth')->except([
+        $this->middleware('auth.api')->except([
             'index',
             'show'
         ]);
@@ -114,15 +114,9 @@ class GalleriesController extends ApiController
      *    "message": "没有找到该记录"
      *   }
      */
-    public function show($id)
+    public function show(Gallery $gallery)
     {
-        $gallery = Gallery::find($id);
-        if (is_null($gallery)){
-            return $this->setStatusCode(404)->respondWithError('没有找到该记录');
-        }
-
         return $this->respondWithItem($gallery,new  GalleryTransformer);
-
     }
 
 
@@ -160,19 +154,18 @@ class GalleriesController extends ApiController
     /**
      *  更新图片集
      */
-    public function update(Request $request,$gallery)
+    public function update(Request $request,Gallery $gallery)
     {
-        $gallery = Gallery::find($gallery);
+        $this->authorize('update',$gallery);
 
-        if (is_null($gallery)){
-            return $this->responseNotFond('没有找到该图集');
-        }
+        $data = array_filter([
+            'title' => $request->title,
+            'content' => $request->get('content'),
+        ]);
 
-
-        return 'true';
-
-        $this->authorize('update',$photo);
-
+        $gallery->update($data);
+        $gallery->save();
+        return $this->respondWithMessage('修改成功');
     }
 
 
@@ -180,8 +173,12 @@ class GalleriesController extends ApiController
      *
      * 删除图片集
      */
-    public function destroy()
+    public function destroy(Gallery $gallery)
     {
+
+
+
+
 
     }
 

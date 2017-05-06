@@ -23,12 +23,22 @@ class PhotoPolicy
     }
 
 
-    public function update(User $user,Photo $photo)
+    /**
+     * @param User $user
+     * @param Photo $photo
+     * @return bool
+     */
+    public function update(User $user, Photo $photo)
     {
         return $user->id === $photo->gallery->user_id;
     }
 
-    public function destroy(User $user,Photo $photo)
+    /**
+     * @param User $user
+     * @param Photo $photo
+     * @return bool
+     */
+    public function destroy(User $user, Photo $photo)
     {
         return $user->id === $photo->gallery->user_id;
     }

@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -36,6 +38,14 @@ class Handler extends ExceptionHandler
     }
 
     /**
+     * @param $message
+     * @param int $code
+     * @param string $status
+     * @return \Illuminate\Http\Response
+     */
+
+
+    /**
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -49,11 +59,15 @@ class Handler extends ExceptionHandler
         if ($exception instanceof AuthorizationException){
 
             if ($request->expectsJson()){
-                return response()->json([
-                    'status' => 'error',
-                    'code' => 403,
-                    'message' => '没有该操作权限'
-                ],403);
+                return jsonResponse('没有该操作权限',403);
+            }
+
+        }
+
+        if ($exception instanceof ModelNotFoundException){
+
+            if ($request->expectsJson()){
+                return jsonResponse('没有找到改资源',404);
             }
 
         }
