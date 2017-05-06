@@ -14,12 +14,35 @@ class PhotosController extends ApiController
 
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth.api');
     }
 
+
+
     /**
-     *
-     * 存储图集的照片
+     * @api {post} /v1/galleries/:id/photos 在时光集添加照片
+     * @apiGroup Gallery
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "Authorization" : "Bearer {token}"
+     *    }
+     * @apiPermission form-data
+     * @apiParam {String} photo 时光集的照片
+     * @apiParam {String} [description] 照片的描述
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "status": "success",
+     *       "code": 200,
+     *       "message": "添加成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *   {
+     *    "status": "error",
+     *    "code": 400,
+     *    "message": "上传图片不能为空"
+     *   }
      */
     public function store(Request $request,$gallery)
     {
@@ -60,7 +83,28 @@ class PhotosController extends ApiController
     // 上传文件为空的问题
     //https://laracasts.com/discuss/channels/general-discussion/i-can-not-get-data-via-requests-put-patch
     /**
-     * 更新图片和描述信息
+     * @api {put} /v1/photos/:id 更新照片和描述信息
+     * @apiGroup Photo
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "Authorization" : "Bearer {token}"
+     *    }
+     * @apiPermission form-data  [?_method=put]  无法上传的话在url影藏域添加此参数
+     * @apiParam {String} [photo] 时光集的照片
+     * @apiParam {String} [description] 照片的描述
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "status": "success",
+     *       "code": 200,
+     *       "message": "修改成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *   {
+     *    "status": "error",
+     *    "code": 400,
+     *    "message": "上传文件必须为图片格式"
+     *   }
      */
     public function update(Request $request,Photo $photo)
     {
@@ -97,6 +141,29 @@ class PhotosController extends ApiController
 
     }
 
+    /**
+     * @api {delete} /v1/photos/:id 删除照片
+     * @apiGroup Photo
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "Authorization" : "Bearer {token}"
+     *    }
+     * @apiPermission 只能删除用户自己图集的照片
+     * @apiParam {int} id 要删除照片的id
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "status": "success",
+     *       "code": 200,
+     *       "message": "删除成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *   {
+     *    "status": "error",
+     *    "code": 400,
+     *    "message": "没有找到改图片"
+     *   }
+     */
     public function destroy(Request $request,$photo)
     {
         $photo = Photo::find($photo);

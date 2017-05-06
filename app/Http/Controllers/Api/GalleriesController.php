@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Gallery;
@@ -26,8 +27,8 @@ class GalleriesController extends ApiController
      * @api {get} /v1/galleries 获取所有的图片集
      * @apiGroup Gallery
      * @apiPermission none
-     * @apiParam {String} [limit] 每页默认返回的数量
-     * @apiParam {String} [page] 不传默认返回第1页
+     * @apiParam {int} [limit] 每页默认返回的数量
+     * @apiParam {int} [page] 不传默认返回第1页
      * @apiVersion 0.0.0
      * @apiSuccessExample {json} Success-Response:
      *     {
@@ -73,10 +74,10 @@ class GalleriesController extends ApiController
     }
 
     /**
-     * @api {get} /v1/gallery/:id 获取单个图片集
+     * @api {get} /v1/galleries 获取单个图片集
      * @apiGroup Gallery
      * @apiPermission none
-     * @apiParam {String} id 所获取图片集的id
+     * @apiParam {int} id 所获取图片集的id
      * @apiVersion 0.0.0
      * @apiSuccessExample {json} Success-Response:
      *     {
@@ -121,9 +122,31 @@ class GalleriesController extends ApiController
 
 
     /**
-     *
-     * 建立时光图片集
+     * @api {post} /v1/galleries 建立时光图片集
+     * @apiGroup Gallery
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "Authorization" : "Bearer {token}"
+     *    }
+     * @apiPermission none
+     * @apiParam {String} title 时光集的标题
+     * @apiParam {String} [content] 时光集的内容
+     * @apiParam {int} [mood_id] 时光集的心情
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "status": "success",
+     *       "code": 200,
+     *       "message": "添加成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *   {
+     *    "status": "error",
+     *    "code": 400,
+     *    "message": "标题不能为空"
+     *   }
      */
+
     public function store(Request $request)
     {
         //验证数据
@@ -152,7 +175,29 @@ class GalleriesController extends ApiController
 
 
     /**
-     *  更新图片集
+     * @api {put} /v1/galleries/:id 更新时光图片集
+     * @apiGroup Gallery
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "Authorization" : "Bearer {token}"
+     *    }
+     * @apiPermission none
+     * @apiParam {String} title 时光集的标题
+     * @apiParam {String} [content] 时光集的内容
+     * @apiParam {int} [mood_id] 时光集的心情
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "status": "success",
+     *       "code": 200,
+     *       "message": "修改成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *   {
+     *    "status": "error",
+     *    "code": 403,
+     *    "message": "没有此权限"
+     *   }
      */
     public function update(Request $request,Gallery $gallery)
     {
@@ -160,7 +205,7 @@ class GalleriesController extends ApiController
 
         $data = array_filter([
             'title' => $request->title,
-            'content' => $request->get('content'),
+            'content' => $request->get('content')
         ]);
 
         $gallery->update($data);
@@ -170,15 +215,41 @@ class GalleriesController extends ApiController
 
 
     /**
-     *
-     * 删除图片集
+     * @api {delete} /v1/galleries/:id 删除时光图片集
+     * @apiGroup Gallery
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "Authorization" : "Bearer {token}"
+     *    }
+     * @apiPermission none
+     * @apiParam {int} id 要删除时光集的id
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "status": "success",
+     *       "code": 200,
+     *       "message": "删除成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *   {
+     *    "status": "error",
+     *    "code": 403,
+     *    "message": "没有此权限"
+     *   }
      */
     public function destroy(Gallery $gallery)
     {
+        $this->authorize('destroy',$gallery);
 
 
+        $photos = $gallery->photos;
+        collect($photos)->each(function ($item, $key){
+            $item->delete();
+        });
 
+        $gallery->delete();
 
+        return $this->respondWithMessage('删除成功');
 
     }
 
