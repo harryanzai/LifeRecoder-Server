@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Gallery;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +17,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setLocale('zh');
+
+        // 字段映射
+        Relation::morphMap([
+            'galleries' => Gallery::class,
+
+        ]);
     }
 
     /**

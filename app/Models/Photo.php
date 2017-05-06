@@ -15,6 +15,14 @@ class Photo extends Model
         return $this->belongsTo(Gallery::class);
     }
 
+    /**
+     * 所有的关联将会被连动。
+     *
+     * @var array
+     */
+    protected $touches = ['galleries'];
+
+
 
     public function baseDir()
     {
