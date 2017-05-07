@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Helpers\Traits\Commentable as CommentTrait;
+use App\Helpers\Traits\Favoritable;
+use App\Helpers\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
 {
 
-    use CommentTrait;
+    use CommentTrait,RecordsActivity,Favoritable;
 
     protected $fillable = ['title','content','mood_id'];
 
