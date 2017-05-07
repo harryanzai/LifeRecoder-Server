@@ -5,6 +5,7 @@ namespace App\Transformers;
 
 use App\Models\Gallery;
 use League\Fractal\TransformerAbstract;
+use App\Transformers\Phototransformer;
 
 class GalleryTransformer extends TransformerAbstract
 {
@@ -33,7 +34,7 @@ class GalleryTransformer extends TransformerAbstract
     {
 
         $photos = $gallery->photos;
-        return $this->collection($photos,new PhotoTransformer,true);
+        return $this->collection($photos,new Phototransformer,true);
 
     }
 
