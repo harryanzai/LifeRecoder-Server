@@ -240,12 +240,6 @@ class GalleriesController extends ApiController
     {
         $this->authorize('destroy',$gallery);
 
-
-        $photos = $gallery->photos;
-        collect($photos)->each(function ($item, $key){
-            $item->delete();
-        });
-
         $gallery->delete();
 
         return $this->respondWithMessage('删除成功');

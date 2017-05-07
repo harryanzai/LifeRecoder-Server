@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Traits\Commentable as CommentTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
@@ -40,6 +41,16 @@ class Gallery extends Model
     public function topic()
     {
         return $this->belongsTo(Topic::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($gallery){
+            $gallery->photos->each->delete();
+        });
+
     }
 
 
