@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Comment;
 use App\Models\Gallery;
 use App\Models\Photo;
+use App\Policies\CommentPolicy;
 use App\Policies\GalleryPolicy;
 use App\Policies\PhotoPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -19,7 +21,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
         Photo::class => PhotoPolicy::class,
-        Gallery::class => GalleryPolicy::class
+        Gallery::class => GalleryPolicy::class,
+        Comment::class => CommentPolicy::class
     ];
 
     /**

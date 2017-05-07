@@ -15,7 +15,6 @@ class CommentsController extends ApiController
         parent::__construct();
         $this->middleware('auth.api')->except([
             'index'
-
         ]);
     }
 
@@ -32,7 +31,7 @@ class CommentsController extends ApiController
      *       "status": "success",
      *       "code": 200,
      *       "data": [
-     *           {
+     *              {
      *               "id": 63,
      *               "body": "Qui recusandae voluptatum quia necessitatibus.",
      *               "create_at": "2017-05-06 22:34:30",
@@ -42,9 +41,9 @@ class CommentsController extends ApiController
      *                   "email": "adipisci.cum@example.net",
      *                   "avatar": "http://lorempixel.com/400/400/?60392",
      *                   "gender": "未设置"
-     *               }
-     *               ]
-     *           }],
+     *                  }
+     *              }
+     *            ],
      *           "pagination": {
      *           "total": 120,
      *           "count": 1,
@@ -119,6 +118,40 @@ class CommentsController extends ApiController
         $toComment->comments()->create($request->all());
 
         return $this->respondWithMessage('添加评论成功');
+
+    }
+
+
+    /**
+     * @api {delete} /v1/comments/:id 删除评论
+     * @apiGroup Comment
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "Authorization" : "Bearer {token}"
+     *    }
+     * @apiPermission none
+     * @apiParam {int} id 要删除评论的id
+     * @apiVersion 0.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *     {
+     *       "status": "success",
+     *       "code": 200,
+     *       "message": "删除成功"
+     *      }
+     * @apiErrorExample {json} Error-Response:
+     *   {
+     *    "status": "error",
+     *    "code": 403,
+     *    "message": "没有此权限"
+     *   }
+     */
+    public function destroy(Comment $comment)
+    {
+        $this->authorize('destroy',$comment);
+
+        $comment->delete();
+
+        return $this->respondWithMessage('删除成功');
 
     }
 

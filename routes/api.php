@@ -47,4 +47,6 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
 
     Route::get('galleries/{gallery}/comments','CommentsController@index')->name('gallery.comments');
 
+    Route::delete('comments/{comment}','CommentsController@destroy');
+
 });
