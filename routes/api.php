@@ -34,6 +34,12 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
 
     Route::get('users/{user}','UsersController@show');
 
+    Route::post('follow','UsersController@doFollow');
+
+    Route::get('users/{user}/following', 'UsersController@following')->name('users.following');
+    Route::get('users/{user}/followers', 'UsersController@followers')->name('users.followers');
+
+
     Route::resource('galleries','GalleriesController');
 
 
