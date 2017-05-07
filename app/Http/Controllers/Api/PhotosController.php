@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\Image\PhotosManager;
 use App\Models\Photo;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Models\Gallery;
 use Illuminate\Http\Request;

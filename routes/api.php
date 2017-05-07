@@ -43,7 +43,7 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
 
     Route::delete('photos/{photo}','PhotosController@destroy');
 
-    Route::post('galleries/{gallery}/comments','CommentsController@store');
+    Route::post('commentable/{commentable}/comments','CommentsController@store');
 
     Route::get('galleries/{gallery}/comments','CommentsController@index')->name('gallery.comments');
 

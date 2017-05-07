@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Gallery;
@@ -74,7 +73,7 @@ class GalleriesController extends ApiController
     }
 
     /**
-     * @api {get} /v1/galleries 获取单个图片集
+     * @api {get} /v1/galleries/:id 获取单个图片集
      * @apiGroup Gallery
      * @apiPermission none
      * @apiParam {int} id 所获取图片集的id
