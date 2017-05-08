@@ -71,6 +71,9 @@
                 <div class="title m-b-md">
                     Coming Soon!
                 </div>
+                <div class="links">
+                    <a href="{{ url('/apidoc/index.html')  }}">Documentation</a>
+                </div>
 
             </div>
         </div>

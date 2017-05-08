@@ -16,7 +16,7 @@ class UsersController extends ApiController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('jwt.auth');
+        $this->middleware('auth.api');
     }
 
     public function show(User $user)
