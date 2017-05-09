@@ -78,7 +78,6 @@ class User extends Authenticatable
 
         User::whereIn('id',$user_ids)->get()->each->setFollowedMessage($this);
 
-
         Follower::where('follower_id',$this->id)
             ->whereIn('user_id',$user_ids)->get()->each->recordFollows();
 
@@ -97,10 +96,6 @@ class User extends Authenticatable
 
         $this->followings()->detach($user_ids,false);
 
-
-
-        Follower::where('follower_id',$this->id)
-            ->whereIn('user_id',$user_ids)->get()->each->unRecordFollows();
 
     }
 

@@ -35,6 +35,8 @@ class CommentsController extends ApiController
      *               "id": 63,
      *               "body": "Qui recusandae voluptatum quia necessitatibus.",
      *               "create_at": "2017-05-06 22:34:30",
+     *               "votesCount": 0,
+     *               "isVoted": false,
      *               "user": {
      *                   "id": 86,
      *                   "nickname": "隋帅",

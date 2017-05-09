@@ -38,6 +38,8 @@ class GalleriesController extends ApiController
      *               "id": 63,
      *               "title": "Qui recusandae voluptatum quia necessitatibus.",
      *               "content": "Et rem provident est quaerat in voluptatem.",
+     *               "favoritesCount": 2,
+     *               "isFavorited": false,
      *               "user": {
      *                   "id": 86,
      *                   "nickname": "隋帅",
@@ -87,6 +89,8 @@ class GalleriesController extends ApiController
      *               "id": 63,
      *               "title": "Qui recusandae voluptatum quia necessitatibus.",
      *               "content": "Et rem provident est quaerat in voluptatem.",
+     *               "favoritesCount": 2,
+     *               "isFavorited": false,
      *               "user": {
      *                   "id": 86,
      *                   "nickname": "隋帅",

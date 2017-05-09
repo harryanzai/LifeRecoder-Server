@@ -23,7 +23,9 @@ class CommentTransformer extends TransformerAbstract
         return [
             'id' => $comment->id,
             'body' => $comment->body,
-            'create_at' =>$comment->created_at->toDateTimeString()
+            'create_at' =>$comment->created_at->toDateTimeString(),
+            'votesCount' => $comment->votesCount,
+            'isVoted' => $comment->isVoted
         ];
     }
 

@@ -63,5 +63,11 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
     Route::delete('galleries/{gallery}/favorites','FavoritesController@destroy')
         ->name('gallery.favorite');
 
+    Route::post('comments/{comment}/votes','VotesController@store')
+        ->name('comment.vote');
+
+    Route::delete('comments/{comment}/votes','VotesController@destroy')
+        ->name('comment.vote');
+
 
 });

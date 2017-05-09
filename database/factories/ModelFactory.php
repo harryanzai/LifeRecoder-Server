@@ -76,15 +76,41 @@ $factory->define(App\Models\Comment::class, function (Faker\Generator $faker) us
 
     $user_id =  \App\Models\User::pluck('id')->random();
     $gallery_id =  \App\Models\Gallery::pluck('id')->random();
+
     $type = ['galleries', 'articles'];
     return [
+
         'user_id' => $user_id,
         'commentable_type' => $type[mt_rand(0,0)],
         'commentable_id' => $gallery_id,
-        'body' => $localFaker->paragraph,
+        'body' => $faker->paragraph,
     ];
 });
 
+$factory->define(App\Models\Favorite::class, function (Faker\Generator $faker) use($localFaker) {
+
+    $user_id =  \App\Models\User::pluck('id')->random();
+    $gallery_id =  \App\Models\Gallery::pluck('id')->random();
+    $type = ['galleries', 'articles'];
+    return [
+        'user_id' => $user_id,
+        'favorited_type' => $type[mt_rand(0,0)],
+        'favorited_id' => $gallery_id
+    ];
+});
+
+
+$factory->define(App\Models\Vote::class, function (Faker\Generator $faker) use($localFaker) {
+
+    $user_id =  \App\Models\User::pluck('id')->random();
+    $comment_id =  \App\Models\Comment::pluck('id')->random();
+    $type = ['comments'];
+    return [
+        'user_id' => $user_id,
+        'voted_type' => $type[mt_rand(0,0)],
+        'voted_id' => $comment_id
+    ];
+});
 
 
 

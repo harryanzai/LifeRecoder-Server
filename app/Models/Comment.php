@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Traits\RecordsActivity;
+use App\Helpers\Traits\Votable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class Comment extends Model
 {
 
-    use SoftDeletes,RecordsActivity;
+    use SoftDeletes,RecordsActivity,Votable;
     protected $fillable = [
         'user_id',
         'body',
@@ -21,6 +22,7 @@ class Comment extends Model
     ];
 
     public static $commentables = ['galleries','articles'];
+
 
 
     protected $dates = ['deleted_at'];

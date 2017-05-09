@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Comment;
 use App\Models\Gallery;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -21,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         // 字段映射
         Relation::morphMap([
             'galleries' => Gallery::class,
+            'comments' => Comment::class
 
         ]);
     }
