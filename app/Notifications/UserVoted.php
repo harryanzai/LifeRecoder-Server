@@ -29,7 +29,7 @@ class UserVoted extends DatabaseNotification
 
         }
 
-        return $this->content($message,$content,$user,$relation,$relation_type);
+        return $this->content($message,null,$user,$relation,$relation_type);
     }
 
 }

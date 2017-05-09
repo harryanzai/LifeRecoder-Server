@@ -69,5 +69,7 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
     Route::delete('comments/{comment}/votes','VotesController@destroy')
         ->name('comment.vote');
 
+    Route::get('messages','NotificationsController@index');
+
 
 });

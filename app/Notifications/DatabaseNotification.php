@@ -2,8 +2,6 @@
 
 namespace App\Notifications;
 
-
-use App\Helpers\Notifaction\NotifactionFormatter;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 

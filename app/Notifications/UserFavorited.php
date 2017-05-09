@@ -23,6 +23,6 @@ class UserFavorited extends DatabaseNotification
 
         $relation = $content->id;
 
-        return $this->content($message,$content,$user,$relation);
+        return $this->content($message,null,$user,$relation);
     }
 }

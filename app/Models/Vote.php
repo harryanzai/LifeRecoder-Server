@@ -31,7 +31,7 @@ class Vote extends Model
         static::created(function ($vote){
 
             $vote_type = $vote->voted;
-            $user = $vote->user;
+            $user = $vote_type->user;
 
             $user->setVotedMessage($vote);
 
