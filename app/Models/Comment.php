@@ -49,6 +49,8 @@ class Comment extends Model
         return $model;
     }
 
+
+
     public static function store(Request $request,$commentableId)
     {
         return Auth::user()->comments()->create([
@@ -64,6 +66,14 @@ class Comment extends Model
         parent::boot();
         static::creating(function ($comment){
             $comment->user_id = Auth::user()->id;
+        });
+
+        static::created(function ($comment){
+
+            $commentType = $comment->commentable;
+            $user = $commentType->user;
+            $user->setCommentMessage($comment);
+
         });
     }
 

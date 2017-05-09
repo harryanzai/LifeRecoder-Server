@@ -3,6 +3,7 @@
 namespace App\Helpers\Notifaction;
 
 use App\Models\User;
+use App\Notifications\UserCommented;
 use App\Notifications\UserFollowed;
 
 class NotifactionFormatter
@@ -22,6 +23,10 @@ class NotifactionFormatter
 
         if ($this->noti instanceof UserFollowed){
             return $this->formatFollow();
+        }
+
+        if ($this->noti instanceof UserCommented){
+            return $this->formatComment();
         }
 
         return [];
@@ -45,17 +50,35 @@ class NotifactionFormatter
         ];
     }
 
-    public function formatCommented(){
-
+    private function content($message,$content,$user)
+    {
+        return [
+            'message' => $message,
+            'content' => $content,
+            'user' => $user
+        ];
 
     }
 
-    public function formatVoted()
+    public function formatComment(){
+
+        $comment = $this->data;
+        $user = $this->data->user;
+
+        $message = '@'.$user->nickname.' 评论了我的图集';
+        $content = $comment->body;
+
+        return $this->content($message,$content,$user);
+
+    }
+
+    public function formatVote()
     {
 
+
     }
 
-    public function formatFovorited()
+    public function formatFavorite()
     {
 
     }

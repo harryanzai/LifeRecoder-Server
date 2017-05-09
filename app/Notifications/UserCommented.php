@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Helpers\Notifaction\NotifactionFormatter;
+use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,9 +20,9 @@ class UserCommented extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Comment $comment)
     {
-        //
+        $this->comment = $comment;
     }
 
     /**
@@ -43,8 +45,7 @@ class UserCommented extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        $format = new NotifactionFormatter($this,$this->comment);
+        return $format->format();
     }
 }

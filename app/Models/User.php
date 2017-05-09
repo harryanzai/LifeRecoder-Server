@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\UserCommented;
 use App\Notifications\UserFollowed;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -86,6 +87,11 @@ class User extends Authenticatable
     public function setFollowedMessage(User $user)
     {
         $this->notify(new UserFollowed($user));
+    }
+
+    public function setCommentMessage($comment)
+    {
+        $this->notify(new UserCommented($comment));
     }
 
     public function unfollow($user_ids)

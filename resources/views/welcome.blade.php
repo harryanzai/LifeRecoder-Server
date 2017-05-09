@@ -73,6 +73,7 @@
                 </div>
                 <div class="links">
                     <a href="{{ url('/apidoc/index.html')  }}">Documentation</a>
+                    <a href="https://github.com/wowiwj/LifeRecoder-Server">GitHub</a>
                 </div>
 
             </div>
