@@ -2,29 +2,25 @@
 
 namespace App\Notifications;
 
-use App\Helpers\Notifaction\NotifactionFormatter;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserFollowed extends Notification
+class UserFavorited extends Notification
 {
     use Queueable;
 
-
-    public $user;
-
+    protected $favorited;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**
@@ -47,7 +43,8 @@ class UserFollowed extends Notification
      */
     public function toArray($notifiable)
     {
-        $format = new NotifactionFormatter($this,$this->user);
-        return $format->format();
+        return [
+            //
+        ];
     }
 }
