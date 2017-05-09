@@ -27,6 +27,7 @@ trait Favoritable
 
         if ( ! $this->favorites()->where($attributes)->exists()){
             return $this->favorites()->create($attributes);
+
         }
     }
 
