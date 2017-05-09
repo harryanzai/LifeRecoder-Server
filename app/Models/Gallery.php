@@ -53,6 +53,7 @@ class Gallery extends Model
             $gallery->photos->each->delete();
         });
 
+
     }
 
 

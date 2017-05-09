@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\UserFollowed;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -74,6 +75,18 @@ class User extends Authenticatable
 
         $this->followings()->sync($user_ids,false);
 
+
+        User::whereIn('id',$user_ids)->get()->each->setFollowedMessage($this);
+
+
+        Follower::where('follower_id',$this->id)
+            ->whereIn('user_id',$user_ids)->get()->each->recordFollows();
+
+    }
+
+    public function setFollowedMessage(User $user)
+    {
+        $this->notify(new UserFollowed($user));
     }
 
     public function unfollow($user_ids)
@@ -83,6 +96,12 @@ class User extends Authenticatable
         }
 
         $this->followings()->detach($user_ids,false);
+
+
+
+        Follower::where('follower_id',$this->id)
+            ->whereIn('user_id',$user_ids)->get()->each->unRecordFollows();
+
     }
 
     public function isFollowing($user_id)

@@ -46,6 +46,7 @@ class Photo extends Model
             $this->path,
             $this->thumbnail_path
         ]);
+
         return parent::delete();
     }
 
