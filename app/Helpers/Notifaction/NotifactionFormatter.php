@@ -50,12 +50,13 @@ class NotifactionFormatter
         ];
     }
 
-    private function content($message,$content,$user)
+    private function content($message,$content,$user,$relacted)
     {
         return [
             'message' => $message,
             'content' => $content,
-            'user' => $user
+            'user' => $user,
+            'relacted' => $relacted
         ];
 
     }
@@ -67,8 +68,9 @@ class NotifactionFormatter
 
         $message = '@'.$user->nickname.' 评论了我的图集';
         $content = $comment->body;
+        $relacted = $comment->commentable->id;
 
-        return $this->content($message,$content,$user);
+        return $this->content($message,$content,$user,$relacted);
 
     }
 

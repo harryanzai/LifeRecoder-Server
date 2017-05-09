@@ -64,9 +64,13 @@ class Comment extends Model
     protected static function boot()
     {
         parent::boot();
+
+        if (Auth::guest()) return;
+
         static::creating(function ($comment){
             $comment->user_id = Auth::user()->id;
         });
+
 
         static::created(function ($comment){
 

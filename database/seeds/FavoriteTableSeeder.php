@@ -11,6 +11,8 @@ class FavoriteTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Favorite::class,60)->create();
+        try{
+            factory(\App\Models\Favorite::class,60)->create();
+        }catch (Exception $e){}
     }
 }
