@@ -48,13 +48,14 @@ abstract class DatabaseNotification extends Notification
     }
 
 
-    protected function content($message,$content,$user,$relation)
+    protected function content($message,$content,$user,$relation,$relation_type = null)
     {
         return [
             'message' => $message,
             'content' => $content,
             'user' => $user,
-            'relation' => $relation
+            'relation' => $relation,
+            'relation_type' => $relation_type
         ];
 
     }
