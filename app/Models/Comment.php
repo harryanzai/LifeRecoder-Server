@@ -65,6 +65,7 @@ class Comment extends Model
     {
         parent::boot();
 
+        // 避免生成模拟数据的时候Trying to get property of non-object
         if (Auth::guest()) return;
 
         static::creating(function ($comment){

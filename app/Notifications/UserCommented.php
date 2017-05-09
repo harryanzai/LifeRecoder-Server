@@ -9,43 +9,18 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserCommented extends Notification
+class UserCommented extends DatabaseNotification
 {
-    use Queueable;
-
-    protected $comment;
-
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct(Comment $comment)
+    function format()
     {
-        $this->comment = $comment;
+        $comment = $this->data;
+        $user = $this->data->user;
+
+        $message = '@'.$user->nickname.' 评论了我的图集';
+        $content = $comment->body;
+        $relation = $comment->commentable->id;
+
+        return $this->content($message,$content,$user,$relation);
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['database'];
-    }
-
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        $format = new NotifactionFormatter($this,$this->comment);
-        return $format->format();
-    }
 }

@@ -9,45 +9,25 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserFollowed extends Notification
+class UserFollowed extends DatabaseNotification
 {
-    use Queueable;
 
-
-    public $user;
-
-
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct(User $user)
+    function format()
     {
-        $this->user = $user;
-    }
+        $user = $this->data;
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['database'];
-    }
+        $message = '@'.$user->nickname.' 关注了我';
 
+        $user = [
+            'id' => $user->id,
+            'nickname' => $user->nickname,
+            'email' => $user->email,
+            'avatar' => url($user->avatar),
+            'gender' => $user->gender,
+        ];
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        $format = new NotifactionFormatter($this,$this->user);
-        return $format->format();
+        $relation = $user->id;
+
+        return $this->content($message,null,$user,$relation);
     }
 }
