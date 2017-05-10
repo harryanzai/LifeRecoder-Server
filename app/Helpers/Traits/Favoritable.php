@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 trait Favoritable
 {
+
+
+    protected static function bootFavoritable()
+    {
+        static::deleting(function ($model){
+            $model->favorites->each->delete();
+        });
+    }
+
     /**
      * 文章和图集可以被喜欢
      * @return mixed
@@ -38,7 +47,7 @@ trait Favoritable
     public function unfavorite()
     {
         $attributes = ['user_id' => Auth::id()];
-        $this->favorites()->where($attributes)->delete();
+        $this->favorites()->where($attributes)->get()->each->delete();
     }
 
     /**
@@ -47,7 +56,7 @@ trait Favoritable
      */
     public function isFavourite()
     {
-        return !! $this->favorites->where('user_id', auth()->id())->count();
+        return ! ! $this->favorites->where('user_id', auth()->id())->count();
     }
 
     /**

@@ -33,7 +33,7 @@ class GetUserFromToken extends BaseMiddleware
         }
 
         if (! $user) {
-            return customResponse('没有找到改用户',4004);
+            return customResponse('没有找到该用户',4004);
         }
 
         return $next($request);

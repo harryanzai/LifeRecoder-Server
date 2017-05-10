@@ -17,3 +17,4 @@ function customResponse($message, $code = 400, $status = 'error')
         'message' => $message
     ],400);
 }
+
