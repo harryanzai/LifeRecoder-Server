@@ -33,6 +33,7 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
     Route::get('state','AuthenticateController@state');
 
     Route::get('users/{user}','UsersController@show');
+    Route::post('users/{user}', 'UsersController@update');
 
     Route::post('follow','UsersController@doFollow');
 

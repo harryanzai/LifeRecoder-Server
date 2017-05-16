@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+
+use App\Helpers\Image\PhotosManager;
 use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -164,5 +166,49 @@ class UsersController extends ApiController
         $users = $user->followers()->orderBy('id', 'desc')->paginate($limit);
         return $this->respondWithPaginator($users,new UserTransformer);
     }
+
+    /**
+     * 更新用户信息
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
+    public function update(Request $request,User $user)
+    {
+        //验证数据
+        $validator = Validator::make($request->all(), [
+            'avatar'     => 'file|image'
+        ],[
+            'avatar.file' => '上传文件失败',
+            'avatar.image' => '上传文件必须为图片格式'
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first();
+            return $this->setStatusCode(400)->respondWithError($errors);
+        }
+        $this->authorize('update',$user);
+
+        $data = array_filter([
+            'nickname' => $request->nickname,
+            'email' => $request->get('email'),
+            'gender' => $request->gender
+        ]);
+
+        if ($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+
+            $new_avatar = (new PhotosManager($file))->storeAvatar();
+            $user->avatar = $new_avatar;
+        }
+        $user->update($data);
+
+        $user->gender = $data['gender'];
+
+        $user->save();
+        return $this->respondWithMessage('用户信息更新成功'); 
+    }
+
+
 
 }
