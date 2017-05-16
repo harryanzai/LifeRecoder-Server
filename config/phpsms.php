@@ -20,17 +20,17 @@ return [
 
     // 阿里大于
     // 云之讯
-//    'scheme' => [
-//        'Alidayu' => '20',
-//        'Ucpaas' => '10 backup',
-//
-//        //仅为备用代理器
-//        'YunTongXun' => '0 backup',
-//    ],
-
     'scheme' => [
-        'Log',
+        'Alidayu' => '20',
+        'Ucpaas' => '10 backup',
+
+        //仅为备用代理器
+        'YunTongXun' => '0 backup',
     ],
+
+//    'scheme' => [
+//        'Log',
+//    ],
 
     /*
      * agents config

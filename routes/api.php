@@ -71,5 +71,11 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
 
     Route::get('messages','NotificationsController@index');
 
+    // 关注者的动态
+    Route::get('status','FollowsController@index');
+
+    // 获取文章
+    Route::get('articles','ArticlesController@index');
+
 
 });

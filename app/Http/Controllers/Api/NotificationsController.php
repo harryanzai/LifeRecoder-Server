@@ -18,7 +18,7 @@ class NotificationsController extends ApiController
 //        $user = Auth::user();
 //
 //        $unreadNoti = $user->unreadNotifications;
-        
+
         $limit = Input::get('limit') ?: 15;
         $notifactions = Notification::latest()->paginate($limit);
 
