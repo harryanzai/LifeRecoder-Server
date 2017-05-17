@@ -13,7 +13,7 @@ class Gallery extends Model
 
     use CommentTrait,RecordsActivity,Favoritable;
 
-    protected $fillable = ['title','content','mood_id'];
+    protected $fillable = ['title','content','mood_id','topic_id'];
 
     public function photos()
     {

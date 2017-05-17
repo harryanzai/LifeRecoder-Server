@@ -27,7 +27,7 @@ class CreateGalleriesTable extends Migration
             $table->boolean('secret')->default(false);
 
             // 默认为草稿状态
-            $table->boolean('publish')->default(false);
+            $table->timestamp('published_at')->nullable();
 
             // 所属的话题
             $table->integer('topic_id')->nullable()->comment('所属的话题');

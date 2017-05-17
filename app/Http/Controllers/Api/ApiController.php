@@ -21,11 +21,6 @@ class ApiController extends Controller
 
 
     /**
-     * @var Manager
-     */
-    protected $fractal;
-
-    /**
      * ApiController constructor.
      */
     public function __construct()
@@ -56,7 +51,6 @@ class ApiController extends Controller
         $this->statusCode = $statusCode;
         return $this;
     }
-
 
     /**
      * @param string $message
@@ -95,6 +89,7 @@ class ApiController extends Controller
         return $this->respond($data);
 
     }
+
 
     /**
      * @param $data
@@ -141,12 +136,9 @@ class ApiController extends Controller
     {
         $resource = new Collection($collection,$callback);
         $rootScope = $this->fractal->createData($resource);
-        return $this->respondWithSuccess($rootScope->toArray());
+        return $this->respondWithStatus('success',$rootScope->toArray());
 
     }
-
-
-
 
     /**
      * @param $paginator
@@ -163,6 +155,9 @@ class ApiController extends Controller
         return $this->respondWithStatus($status,$rootScope->toArray());
 
     }
+
+
+
 
     /**
      * @param $message
@@ -208,6 +203,11 @@ class ApiController extends Controller
         // 只取出一条错误信息
         return $this->setStatusCode(400)->respondWithError($validator->messages()->first(), 'error');
     }
+
+    /**
+     * @var Manager
+     */
+    protected $fractal;
 
 
 }

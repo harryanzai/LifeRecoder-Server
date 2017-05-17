@@ -78,5 +78,8 @@ Route::group(['prefix'=>'v1','namespace' => 'Api'],function (){
     // 获取文章
     Route::get('articles','ArticlesController@index');
 
+    // 获取所有的话题
+    Route::get('topics','TopicsController@index');
+
 
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Gallery;
@@ -156,6 +157,7 @@ class GalleriesController extends ApiController
 
         $validator = Validator::make($request->all(), [
             'title'     => 'required|min:3',
+            'mood_id' => 'exists:moods,id'
         ],[
             'title.required' => '标题不能为空',
             'title.min' => '标题不能少于3个字符'
@@ -204,17 +206,40 @@ class GalleriesController extends ApiController
      */
     public function update(Request $request,Gallery $gallery)
     {
+
+        $validator = Validator::make($request->all(), [
+            'title'     => 'min:3',
+            'topic_id' => 'exists:topics,id'
+        ],[
+            'title.min' => '标题不能少于3个字符'
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first();
+            return $this->respondWithError($errors);
+        }
+
         $this->authorize('update',$gallery);
 
         $data = array_filter([
             'title' => $request->title,
-            'content' => $request->get('content')
+            'content' => $request->get('content'),
+            'topic_id' => $request->topic_id
         ]);
+
+        if ($request->publish == 1){
+            $gallery->published_at = Carbon::now();
+        }
+
+        if ($request->secret == 1){
+            $gallery->secret = true;
+        }
+
 
         $gallery->update($data);
         $gallery->save();
         return $this->respondWithMessage('修改成功');
     }
+
 
 
     /**
