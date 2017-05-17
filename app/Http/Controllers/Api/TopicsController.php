@@ -17,10 +17,24 @@ class TopicsController extends ApiController
     }
 
 
+    // 获取所有的话题
     public function index()
     {
         $topics = Topic::all();
         return $this->respondWithCollection($topics,new Topictransformer);
+    }
+
+
+    // 获取热门话题
+    public function hotTopics()
+    {
+
+        $topics = Topic::all()->sortByDesc(function ($topic){
+            return $topic->galleriesCount;
+        })->slice(0,4)->values();
+
+        return $this->respondWithCollection($topics,new Topictransformer);
+
     }
 
 

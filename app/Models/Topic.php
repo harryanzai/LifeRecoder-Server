@@ -14,6 +14,18 @@ class Topic extends Model
         return $this->hasMany(Gallery::class);
     }
 
+    public function galleriesCount()
+    {
+        return $this->galleries->count();
+    }
+
+    protected $appends = ['galleriesCount'];
+
+    public function getGalleriesCountAttribute()
+    {
+        return $this->galleriesCount();
+    }
+
 
 
 
